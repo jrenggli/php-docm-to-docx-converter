@@ -47,8 +47,11 @@ unset($zip);
 
 
 
+
+
 /*
  * zip content
+ * Credits: http://www.webandblog.com/hacks/zip-a-folder-on-the-server-with-php/
  */
 $zip = new ZipArchive();
 if ($zip->open("output.docx", ZIPARCHIVE::CREATE) !== TRUE) {
