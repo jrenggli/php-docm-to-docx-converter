@@ -42,10 +42,14 @@ if ($zip->open('input.docm') === TRUE) {
 unset($zip);
 
 
+
+
+
+
+
 /*
  * zip content
  */
-
 $zip = new ZipArchive();
 if ($zip->open("output.docx", ZIPARCHIVE::CREATE) !== TRUE) {
 	die ("Could not open archive");
@@ -61,6 +65,10 @@ foreach ($iterator as $key => $value) {
 $zip->close();
 echo "Archive created successfully.";
 unset($zip);
+
+//TODO: temporären Ordner löschen
+
+
 
 
 ?>
