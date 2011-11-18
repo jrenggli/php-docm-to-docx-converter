@@ -44,7 +44,21 @@ unset($zip);
 
 
 
+/*
+ * delete macros
+ * Credits: http://openxmldeveloper.org/blog/b/openxmldeveloper/archive/2008/01/11/2608.aspx
+ */
 
+
+//TODO: [Content_types.xml] bearbeiten
+
+//TODO: document.xml.rels bearbeiten
+
+//TODO: vbaData.xml löschen
+
+//TODO: vbaProject.bin löschen
+
+//TODO: vbaProject.bin.rels löschen
 
 
 
