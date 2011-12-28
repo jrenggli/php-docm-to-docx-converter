@@ -25,8 +25,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+$filesToDelete = array();
 
-$path = sys_get_temp_dir() . uniqid() . DIRECTORY_SEPARATOR;
+$path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid() . DIRECTORY_SEPARATOR;
 
 /*
  * extract
@@ -35,9 +36,7 @@ $zip = new ZipArchive;
 if ($zip->open('input.docm') === TRUE) {
 	$zip->extractTo($path);
 	$zip->close();
-	echo 'ok';
 } else {
-	echo 'Fehler';
 }
 unset($zip);
 
@@ -49,10 +48,45 @@ unset($zip);
  * Credits: http://openxmldeveloper.org/blog/b/openxmldeveloper/archive/2008/01/11/2608.aspx
  */
 
+/*
 
 //TODO: [Content_types.xml] bearbeiten
+$filename = $path . '[Content_Types].xml';
+$xml = simplexml_load_file($filename);
+$ns = $xml->getNamespaces();
+$xml->registerXPathNamespace('x', $ns[""]);
+
+$xpath = $xml->xpath('//x:Override[@PartName="/word/document.xml"]');
+$xpath[0]['ContentType'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml';
+
+$xpath = $xml->xpath('//x:Override[@PartName="/word/vbaData.xml"]');
+$dom = dom_import_simplexml($xpath[0]);
+$dom->parentNode->removeChild($dom);
+$filesToDelete[] = 'word/vbaData.xml';
+
+$xpath = $xml->xpath('//x:Default[@Extension="bin"]');
+$dom = dom_import_simplexml($xpath[0]);
+$dom->parentNode->removeChild($dom);
+
+$xml->asXML($filename);
 
 //TODO: document.xml.rels bearbeiten
+$filename = $path . 'word/_rels/document.xml.rels';
+$xml = simplexml_load_file($filename);
+
+$ns = $xml->getNamespaces();
+$xml->registerXPathNamespace('x', $ns[""]);
+
+$xpath = $xml->xpath('//x:Relationship[@Type="http://schemas.microsoft.com/office/2006/relationships/vbaProject"]');
+
+$target = (string) $xpath[0]['Target'];
+$filesToDelete[] = 'word/' . $target;
+$filesToDelete[] = 'word/_rels/' . $target . '.rels';
+
+$dom = dom_import_simplexml($xpath[0]);
+$dom->parentNode->removeChild($dom);
+
+$xml->asXML($filename);
 
 //TODO: vbaData.xml löschen
 
@@ -60,8 +94,10 @@ unset($zip);
 
 //TODO: vbaProject.bin.rels löschen
 
-
-
+foreach ($filesToDelete as $filename) {
+    unlink($path . $filename);
+}
+*/
 
 /*
  * zip content
