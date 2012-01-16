@@ -5,8 +5,7 @@
 *  (c) 2011 Jonas Renggli (jonas.renggli@entris-banking.ch)
 *  All rights reserved
 *
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
+*  This script is free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
@@ -48,7 +47,7 @@ unset($zip);
  * Credits: http://openxmldeveloper.org/blog/b/openxmldeveloper/archive/2008/01/11/2608.aspx
  */
 
-/*
+
 
 //TODO: [Content_types.xml] bearbeiten
 $filename = $path . '[Content_Types].xml';
@@ -97,7 +96,7 @@ $xml->asXML($filename);
 foreach ($filesToDelete as $filename) {
     unlink($path . $filename);
 }
-*/
+
 
 /*
  * zip content
@@ -111,6 +110,9 @@ if ($zip->open("output.docx", ZIPARCHIVE::CREATE) !== TRUE) {
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
 foreach ($iterator as $key => $value) {
 	$localPath = str_replace($path, '', $key);
+	if (!is_file(realpath($key))) {
+		continue;
+	}
 	echo($localPath . '<br>');
 	$zip->addFile(realpath($key), $localPath) or die ("ERROR: Could not add file: $key");
 }
